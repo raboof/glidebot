@@ -1,15 +1,18 @@
 #!/bin/bash
 
 set -e
+set -o xtrace
 
 # TODO make configurable
 USER=raboof
 PROJECT=connbeat
 REPO=github.com/$USER/$PROJECT
 
+echo "Glidebot $GOPATH/src/$REPO"
+
 GLIDEBOT_USER=`git config github.user`
 
-go get $REPO
+go get -d $REPO
 cd $GOPATH/src/$REPO
 
 if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
@@ -26,13 +29,11 @@ glide up
 # if dirty, commit, push branch
 if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
   echo "Update made folder dirty, creating PR"
-  git remote add glidebot git@github.com:$GLIDEBOT_USER/$PROJECT 2>/dev/null || true
   git add glide.lock vendor
   git commit -a -m "Update glide dependencies"
+  hub fork
   git push -u glidebot
-  # TODO probably needs to make base branch explicit
-  # when not using the same user for $USER and $GLIDEBOT_USER
-  hub pr -m "Update glide dependencies"
+  hub pull-request -m "Update glide dependencies" -b $USER:master
 
   # TODO perhaps it would be neat to close any existing
   # glidebot PR?
