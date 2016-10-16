@@ -2,9 +2,9 @@
 
 ## About
 
-Glidebot will:
+Glidebot will periodically:
 
-* Check out a github repo
+* Check out your github repo
 * Run `glide update`
 * Have any dependencies changed? Then create a pull request.
 
