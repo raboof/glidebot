@@ -3,10 +3,7 @@
 set -e
 set -o xtrace
 
-# TODO make configurable
-USER=raboof
-PROJECT=connbeat
-REPO=github.com/$USER/$PROJECT
+REPO=github.com/${OWNER:?user or organization for repo not set}/${PROJECT:?}
 
 echo "Glidebot $GOPATH/src/$REPO"
 
@@ -33,7 +30,7 @@ if [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
   git commit -a -m "Update glide dependencies"
   hub fork
   git push -u glidebot
-  hub pull-request -m "Update glide dependencies" -b $USER:master
+  hub pull-request -m "Update glide dependencies" -b ${OWNER:?}:master
 
   # TODO perhaps it would be neat to close any existing
   # glidebot PR?

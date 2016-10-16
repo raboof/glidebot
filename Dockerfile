@@ -8,4 +8,6 @@ RUN curl https://glide.sh/get | sh
 
 COPY glidebot.sh /
 
+ENV USER root
+
 CMD "/glidebot.sh"
