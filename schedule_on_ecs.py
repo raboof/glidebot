@@ -13,11 +13,12 @@ project = sys.argv[1].split('/')[2]
 
 client = boto3.client('ecs')
 response = client.run_task(
-  taskDefinition='glidebot:3',
+  cluster='glidebot',
+  taskDefinition='glidebot_task:1',
   overrides={ 
     'containerOverrides': [ 
       { 
-        'name': 'glidebot',
+        'name': 'glidebot_task',
         'environment': [ 
           { 
             'name': 'USER',
