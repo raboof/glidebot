@@ -103,8 +103,8 @@ resource "aws_launch_configuration" "glidebot_ecs_launch_conf" {
 resource "aws_autoscaling_group" "glidebot_ecs_autoscaler" {
   availability_zones = ["${var.aws_zone}"]
   launch_configuration = "${aws_launch_configuration.glidebot_ecs_launch_conf.name}"
-  min_size = 1
-  max_size = 1
+  min_size = 0
+  max_size = 0
 
   lifecycle {
     create_before_destroy = true
